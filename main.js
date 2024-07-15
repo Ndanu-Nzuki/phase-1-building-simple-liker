@@ -3,7 +3,36 @@ const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
+const body = document.querySelector("body");
+const modal = document.querySelector("#modal");
 
+body.addEventListener("click", (event) => {
+  if (event.target.matches("span")) {
+    mimicServerCall()
+      .then(() => {
+        thenCb(event.target);
+      })
+      .catch(catchCb);
+  }
+});
+
+function hideModalAfterTimeout() {
+  modal.classList.add("hidden");
+}
+
+function catchCb(error) {
+  modal.classList.remove("hidden");
+  const p = modal.querySelector("#modal-message");
+  p.textContent = error;
+
+  setTimeout(hideModalAfterTimeout, 3000);
+}
+
+function thenCb(target) {
+  target.textContent === "♡"
+    ? (target.textContent = "♥")
+    : (target.textContent = "♡");
+}
 
 
 
